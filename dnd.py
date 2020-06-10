@@ -123,7 +123,14 @@ class Requirement:
     self.req_type = "ATTR" # 'ATTR' -> attribute, 'SKILL' -> skills
     self.req_type_sub = "STR"
     self.req_rating = 10
+    self.consequence = None
 
+  def addConsequence(consequence):
+    self.consequence = consequence
+  
+  def removeConsequence(consequence):
+    self.consequence = None
+    
   def resolve(self,character):
     result = -1000
     if self.req_type == "ATTR":
@@ -132,7 +139,13 @@ class Requirement:
       result = character.character_skills[self.req_type_sub] + rollSum(1,20)
     else:
       pass
-    return result >= self.req_rating
+    if result >= self.req_rating:
+        return True
+    else:
+        if self.consequence != None:
+            self.consequence.resolve()
+        else:
+            return False
 
 class Consequences:
   def __init__(self):
