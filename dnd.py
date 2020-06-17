@@ -147,10 +147,21 @@ class Requirement:
         else:
             return False
 
-class Consequences:
+class Consequence:
   def __init__(self):
     self.description = ""
-    self.paths = []
+    self.destination = None
+    self.transfer = False
+    self.modify = False
+    
+
+  def resolve(self,character):
+    # apply the changes if needed [modify]
+    if modify:
+        pass
+    # control the event flow
+    if transfer:
+        pass
 
 # Types of events to consider:
 # 1) DIalouge = interactions with NPCS
