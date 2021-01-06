@@ -1,0 +1,16 @@
+Brandybuck Inn
+2-In the corner a stalwart looking gaurd discusses tactics with his men.
+3-Some questionable looking individuals are attempting to remain inconspicuous in the corner.
+4-Lorentz, the Guild Mage, awaits near the bar.
+
+Battle on the Hill
+4-A massive battle is unfolding, attempt to charge into the fray.
+
+Journey Through the Sewers
+4-Laughing can be heard coming from deeper into the tunnel.
+
+Showdown at Quartz Rudge
+
+ATTR
+CHA
+14

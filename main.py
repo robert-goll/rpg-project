@@ -45,7 +45,22 @@ if __name__=='__main__':
     print("\tcontinued through %s"%path)
     for innerPath in path.paths:
       print('\t\t journey ends at %s'%innerPath)
-  '''
+      '''
+      
   player = Player()
   story = build_test_adventure()
   story.resolve(player)
+  
+'''
+  info = []
+  f = open("test_adventure.txt")
+  temp = None
+  while temp != "":
+    temp = f.readline()
+    if temp != "":
+        info.append(temp)
+  f.close()
+  
+  for s in info:
+    print(s)
+'''

@@ -1,5 +1,7 @@
-from dnd import *
-
+from entity import *
+from events import *
+from requirements import * 
+from consequences import *
 
 def build_test_adventure():
   #Create the events
