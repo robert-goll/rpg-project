@@ -47,6 +47,8 @@ if __name__=='__main__':
       print('\t\t journey ends at %s'%innerPath)
       '''
       
+  nodes = input_story("test_adventure.txt")
+  print(nodes)
   player = Player()
   story = build_test_adventure()
   story.resolve(player)
