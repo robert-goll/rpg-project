@@ -17,6 +17,26 @@ def rollSum(dice_count: int,dice_faces: int) -> int:
   return int(fsum(result))
 
 
+def build_story(eventInfo):
+  events = []
+  requirements = []
+  for event in eventinfo:
+    temp = Event()
+    temp.description = event[0]
+    events.append(temp)
+    reqs = []
+    for req in event[1]:
+      temp = Requirement()
+      text = req[:-1]
+      text = text.split('-')
+      temp.req_type = text[0]
+      temp.req_type_sub = text[1]
+      temp.rating = int(text[2])
+      reqs.append(temp)
+    requirements.append(reqs)
+    for path in event[2]:
+      events[-1].path_text.append(pat[:-1])
+
 # <General description / narrative description>
 # 1) Option 1 <STR>
 # 2) Option 2 <CHA>
