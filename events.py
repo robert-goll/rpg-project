@@ -1,3 +1,6 @@
+from requirements import *
+import dnd
+
 #CLASSES FOR events - The nodes of our story graph
 class Event:
   def __init__(self):
@@ -56,3 +59,54 @@ def outputEvent(event):
     else:
       print("Invalid Input, please enter a number between 1 and %d"%(len(event.path_text)))
   return int(userInput) - 1
+
+def input_story(inputFile: str) -> list:
+  f = open(inputFile)
+  count = int(f.readline())
+  nodes = []
+  for i in range(count):
+    print(f"node{i+1}...")
+    description = f.readline()
+    temp = f.readline()
+    requirements = []
+    print("grabbing requirements")
+    while(temp != '*\n'):
+      requirements.append(temp)
+      temp = f.readline()
+    temp = f.readline()
+    paths = []
+    print("grabbing path descriptions")
+    while(temp != '\n'):
+      paths.append(temp)
+      temp = f.readline()
+    nodes.append((description,requirements,paths))
+  f.close()
+  return nodes
+
+
+def build_story(eventInfo):
+  events = []
+  # Main loop to build each Event object
+  for event in eventInfo:
+    temp = Event()
+    temp.description = event[0]
+    events.append(temp)
+    # Loop to build each requirement object for an Event
+    for req in event[1]:
+      temp = Requirement()
+      text = req[:-1]
+      text = text.split('-')
+      temp.req_type = text[0]
+      temp.req_type_sub = text[1]
+      temp.rating = int(text[2])
+      events[-1].requirements.append(temp)
+    # Loop to insert each path(raw) to the Event
+    for path in event[2]:
+      events[-1].path_text.append(path[:-1])
+    # Loop to clean up path(raw) and link associated events
+  for event in events:
+    for i in range(len(event.path_text)):
+      temp = event.path_text[i].split('-')
+      event.path_text[i] = temp[1]
+      event.addPath(events[int(temp[0])-1])
+  return events[0]

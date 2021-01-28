@@ -50,7 +50,8 @@ if __name__=='__main__':
   nodes = input_story("test_adventure.txt")
   print(nodes)
   player = Player()
-  story = build_test_adventure()
+  #story = build_test_adventure()
+  story = build_story(nodes)
   story.resolve(player)
   
 '''

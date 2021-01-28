@@ -1,4 +1,4 @@
-from dnd import * 
+from dnd import *
 
 class Requirement:
   def __init__(self):
