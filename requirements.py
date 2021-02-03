@@ -3,7 +3,7 @@ from dnd import *
 class Requirement:
   def __init__(self):
     self.description = ""
-    self.req_type = "ATTR" # 'ATTR' -> attribute, 'SKILL' -> skills
+    self.req_type = "ATTR" # 'ATTR' -> attribute, 'SKILL' -> skills, 'COMBAT' - > You know what this is
     self.req_type_sub = "STR"
     self.req_rating = 10
     self.consequence = None
@@ -20,6 +20,9 @@ class Requirement:
       result = character.getAttributeModifer(self.req_type_sub) + rollSum(1,20)
     elif self.req_type == "SKILL":
       result = character.character_skills[self.req_type_sub] + rollSum(1,20)
+    elif self.req_type == "COMBAT":
+      result = 1 
+#TODO - Implement combat loop function
     else:
       pass
     if result >= self.req_rating:
