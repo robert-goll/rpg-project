@@ -22,6 +22,9 @@ class Requirement:
       result = character.character_skills[self.req_type_sub] + rollSum(1,20)
     elif self.req_type == "COMBAT":
       result = 1 
+    for gear in character.character_gear[self.req_type]:
+      if gear.gear_subType == self.req_type_sub:
+        result += gear.gear_modifier 
 #TODO - Implement combat loop function
     else:
       pass

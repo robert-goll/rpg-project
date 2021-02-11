@@ -64,10 +64,9 @@ class NPC(Entity):
     }
   
     self.character_gear = {
-      "armor": 0,
-      "weapons": 0,
-      "consumables": 0,
-      "trinkets": 0
+      "ATTR": [],
+      "SKILL": [],
+      "COMBAT": []
     }
   
   def getAttributeModifer(self, attribute):

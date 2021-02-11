@@ -6,7 +6,7 @@ Brandybuck Inn
 4-Lorentz, the Guild Mage, awaits near the bar.
 
 Battle on the Hill
-ATTR-CHA-14
+ATTR-CHA-24
 *
 4-A massive battle is unfolding, attempt to charge into the fray.
 

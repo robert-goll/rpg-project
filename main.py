@@ -50,6 +50,14 @@ if __name__=='__main__':
   nodes = input_story("test_adventure.txt")
   print(nodes)
   player = Player()
+  
+  gear = Gear()
+  gear.gear_type = "ATTR"
+  gear.gear_subType = "CHA"
+  gear.gear_modifier = 30
+  
+  player.character_gear[gear.gear_type].append(gear)
+  
   #story = build_test_adventure()
   story = build_story(nodes)
   story.resolve(player)
