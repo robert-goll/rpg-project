@@ -53,7 +53,6 @@ class NPC(Entity):
     self.character_totalHP = 10
     self.character_currentHP = 10
 
-
     self.character_skills = {
       "athletics" : 0,
       "acrobatics": 0,
@@ -63,39 +62,32 @@ class NPC(Entity):
       "social"    : 0
     }
   
+<<<<<<< HEAD
     self.character_gear = {
       "ATTR": [],
       "SKILL": [],
       "COMBAT": []
     }
   
+=======
+self.character_gear = {
+  "armor": [],
+  "weapns": [],
+  "consumables": [],
+  "trinkets": []
+}
+
+>>>>>>> 57e56c5f415d1c2c62b549111ba39f93e661dd0f
   def getAttributeModifer(self, attribute):
     return (self.character_attributes[attribute] - 10) // 2
-    
+
   def getArmorClass(self):
-    modifiers = 0
-    for armor in self.character_gear["armor"]:
-        modifiers =+ armor.gear_modifier
-    for trinket in self.character_gear["trinkets"]:
-        if trinket.gear_subType == "AC":
-            modifiers += trinket.gear_modifier
-    return self.getAttributeModifier('DEX') + modifiers
-    
-  def getInitiative(self):
-    modifiers = 0
-    for trinket in self.character_gear["trinkets"]:
-        if trinket.gear_subType == "initiative":
-            modifiers += trinket.gear_modifier
-    return modifiers + rollDice(1,20)
+    return self.getAttributeModifier('DEX')
 
 class Player(NPC):
   def __init__(self):
     NPC.__init__(self)
-    
+
 class Gear(Entity):
   def __init__(self):
-      Entity.__init__(self)
-      self.description = ""
-      self.gear_type = ""
-      self.gear_subType = ""
-      self.gear_modifier = 0
+    Entity.__init__(self)
