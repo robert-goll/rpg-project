@@ -1,3 +1,7 @@
+
+class Entity():
+    pass
+
 races = {
   'human': {
     'name': 'Human',
@@ -79,6 +83,9 @@ class NPC(Entity):
         if trinket.gear_subType == "initiative":
             modifiers += trinket.gear_modifier
     return modifiers + rollDice(1,20) 
+    
+  def change_attribute(attribute,value):
+    self.character_attributes[attribute] += value
 
 class Player(NPC):
   def __init__(self):

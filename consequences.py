@@ -7,6 +7,7 @@ class Consequence:
     self.modify = False
     self.con_type = "" # - ATTR , SKILL, HP, GEAR, PARTY, XP
     self.con_sub_type = "" # e.g. ATTR -> {STR,CON,DEX,...}
+    self.value = 0
     
     # health, equipment/currency/valuables, skills, attributes, NPC
     
@@ -15,7 +16,7 @@ class Consequence:
     # apply the changes if needed [modify]
     if self.modify:
         if self.con_type == 'ATTR':
-            pass
+            character.change_attribute(self.con_sub_type,type)
         elif self.con_type == 'SKILL':
             pass
         elif self.con_type == 'HP':
