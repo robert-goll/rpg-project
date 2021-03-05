@@ -84,8 +84,17 @@ class NPC(Entity):
             modifiers += trinket.gear_modifier
     return modifiers + rollDice(1,20) 
     
-  def change_attribute(attribute,value):
+  def change_attribute(self,attribute,value):
     self.character_attributes[attribute] += value
+    
+  def change_skill(self,skill,value):
+    self.character_skills[skill] += value
+    
+  def change_HP(self,value):
+    self.character_attributes[attribute] += value
+    
+  def change_XP(self,value):
+    self.character_experience += value
 
 class Player(NPC):
   def __init__(self):

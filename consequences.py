@@ -16,13 +16,13 @@ class Consequence:
     # apply the changes if needed [modify]
     if self.modify:
         if self.con_type == 'ATTR':
-            character.change_attribute(self.con_sub_type,type)
+            character.change_attribute(self.con_sub_type,self.value)
         elif self.con_type == 'SKILL':
-            pass
+            character.change_skill(self.con_sub_type,self.value)
         elif self.con_type == 'HP':
-            pass
+            character.change_HP(self.value)
         elif self.con_type == 'XP':
-            pass
+            character.change_XP(self.value)
         elif self.con_type == 'GEAR':
             pass
         elif self.con_type == 'PARTY':
