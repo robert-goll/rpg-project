@@ -24,7 +24,10 @@ class Consequence:
         elif self.con_type == 'XP':
             character.change_XP(self.value)
         elif self.con_type == 'GEAR':
-            pass
+            if self.value[0] == 'TAKE':
+                character.character_gear[self.con_sub_type].remove(self.value[1])
+            else:
+                character.character_gear[self.con_sub_type].append(self.value[1])
         elif self.con_type == 'PARTY':
             pass
     # control the event flow

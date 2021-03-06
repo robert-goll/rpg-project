@@ -20,7 +20,7 @@ class Requirement:
       result = character.getAttributeModifer(self.req_type_sub) + rollSum(1,20)
     elif self.req_type == "SKILL":
       result = character.character_skills[self.req_type_sub] + rollSum(1,20)
-    elif self.req.type == "COMBAT":
+    elif self.req_type == "COMBAT":
       result = 1 
     for gear in character.character_gear[self.req_type]:
       if gear.gear_subType == self.req_type_sub:
