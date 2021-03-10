@@ -52,7 +52,12 @@ def outputEvent(event):
   while not valid:
     print(event.description)
     for i in range(len(event.path_text)):
-      print("%d) %s"%(i+1,event.path_text[i]))
+      temp = "%d) %s"%(i+1,event.path_text[i])
+      temp1= ""
+# TODO - modify to accommodate output of multiple requirements; currently only the first.
+      if len(event.paths[i].requirements) > 0:
+        temp1 = "<%s:%s>"%(event.paths[i].requirements[0].req_type,event.paths[i].requirements[0].req_type_sub)
+      print(temp + temp1)
     userInput = input(":> ")
     if userInput.isdecimal() and (0 <= int(userInput) <= len(event.path_text)):
       valid = True

@@ -16,6 +16,17 @@ def rollSum(dice_count: int,dice_faces: int) -> int:
   result = rollDice(dice_count,dice_faces)
   return int(fsum(result))
 
+def combat_encounter(*args):
+  initiative_order = []
+  for combatant in args:
+    i = combatant.getInitiative()
+    index = 0
+    for index in range(len(initiative_order)):
+      if initiative_order[index][0] <= i:
+        break
+    initiative_order.insert(index,(i,compatant))
+  
+  
 # <General description / narrative description>
 # 1) Option 1 <STR>
 # 2) Option 2 <CHA>

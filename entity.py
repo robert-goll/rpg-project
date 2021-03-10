@@ -79,6 +79,7 @@ class NPC(Entity):
     
   def getInitiative(self):
     modifiers = 0
+#TODO = update according to the current character_gear dictionary labels; "trinkets"
     for trinket in self.character_gear["trinkets"]:
         if trinket.gear_subType == "initiative":
             modifiers += trinket.gear_modifier
