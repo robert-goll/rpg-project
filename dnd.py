@@ -17,6 +17,22 @@ def rollSum(dice_count: int,dice_faces: int) -> int:
   return int(fsum(result))
 
 def combat_encounter(*args):
+  initiative_order = combat_build_initiative(args)
+  done = False
+  while !done:
+    for combatant in initiative_order:
+      if type(combatant) == <class 'entity.Player'>:
+        pass
+      else:
+        pass
+      
+''' combat actions:
+        attack<specific weapon>
+        
+'''
+    
+    
+def combat_build_initiative(args):
   initiative_order = []
   for combatant in args:
     i = combatant.getInitiative()
@@ -24,8 +40,8 @@ def combat_encounter(*args):
     for index in range(len(initiative_order)):
       if initiative_order[index][0] <= i:
         break
-    initiative_order.insert(index,(i,compatant))
-  
+    initiative_order.insert(index,(i,combatant))
+  return initiative_order
   
 # <General description / narrative description>
 # 1) Option 1 <STR>

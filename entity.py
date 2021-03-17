@@ -62,6 +62,8 @@ class NPC(Entity):
     self.character_gear = {
       "ATTR": [],
       "SKILL": [],
+      "ARMOR": [],
+      "TRINKET": [],
       "COMBAT": []
     }
   
@@ -70,9 +72,9 @@ class NPC(Entity):
     
   def getArmorClass(self):
     modifiers = 0
-    for armor in self.character_gear["armor"]:
-        modifiers =+ armor.gear_modifier
-    for trinket in self.character_gear["trinkets"]:
+    for armor in self.character_gear["ARMOR"]:
+        modifiers += armor.gear_modifier
+    for trinket in self.character_gear["TRINKET"]:
         if trinket.gear_subType == "AC":
             modifiers += trinket.gear_modifier
     return self.getAttributeModifier('DEX') + modifiers
@@ -80,7 +82,7 @@ class NPC(Entity):
   def getInitiative(self):
     modifiers = 0
 #TODO = update according to the current character_gear dictionary labels; "trinkets"
-    for trinket in self.character_gear["trinkets"]:
+    for trinket in self.character_gear["TRINKET"]:
         if trinket.gear_subType == "initiative":
             modifiers += trinket.gear_modifier
     return modifiers + rollDice(1,20) 
@@ -104,3 +106,11 @@ class Player(NPC):
 class Gear(Entity):
   def __init__(self):
     Entity.__init__(self)
+    self.description = ""
+    self.actions = []
+    self.value = 0
+    self.gear_modifier = 0
+    self.gear_type = ""
+    self.gear_subType = ""
+    
+#subtypes: AC, initiative
