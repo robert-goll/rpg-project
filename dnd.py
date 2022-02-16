@@ -22,18 +22,15 @@ def combat_encounter(*args):
   done = False
   while not done:
     for combatant in initiative_order:
-      if isinstance(combatant,Player):
+      if isinstance(combatant,Player):#<class 'entity.Player'>:
         pass
       else:
         pass
-
-
+      
 ''' combat actions:
         attack<specific weapon>
         
 '''
-    
-    
 def combat_build_initiative(args):
   initiative_order = []
   for combatant in args:
