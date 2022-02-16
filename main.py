@@ -1,8 +1,8 @@
 from dnd import *
 from test_adventure import *
 
-if __name__=='__main__':
-  '''
+if __name__ == '__main__':
+    '''
   myNPC = NPC() 
   print(myNPC.character_name)
   myNPC.character_name = "Steve"
@@ -11,7 +11,7 @@ if __name__=='__main__':
   otherNPC.character_name = "Uncle Bob"
   print(otherNPC.character_name)
   '''
-  '''
+    '''
   rootEvent = Event()
   rootEvent.description = "Brandybuck Inn"
 
@@ -39,29 +39,29 @@ if __name__=='__main__':
   req3 = Requirement()
   '''
 
-  '''
+    '''
   print("Start of the journey at %s"%rootEvent.description)
   for path in rootEvent.paths:
     print("\tcontinued through %s"%path)
     for innerPath in path.paths:
       print('\t\t journey ends at %s'%innerPath)
       '''
-      
-  nodes = input_story("test_adventure.txt")
-  print(nodes)
-  player = Player()
-  
-  gear = Gear()
-  gear.gear_type = "ATTR"
-  gear.gear_subType = "CHA"
-  gear.gear_modifier = 30
-  
-  player.character_gear[gear.gear_type].append(gear)
-  
-  #story = build_test_adventure()
-  story = build_story(nodes)
-  story.resolve(player)
-  
+
+    nodes = input_story("test_adventure.txt")
+    print(nodes)
+    player = Player()
+
+    gear = Gear()
+    gear.gear_type = "ATTR"
+    gear.gear_subType = "CHA"
+    gear.gear_modifier = 30
+
+    player.character_gear[gear.gear_type].append(gear)
+
+    # story = build_test_adventure()
+    story = build_story(nodes)
+    story.resolve(player)
+
 '''
   info = []
   f = open("test_adventure.txt")
