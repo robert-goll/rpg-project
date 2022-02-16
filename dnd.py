@@ -1,5 +1,6 @@
 from random import randint
 from math import fsum
+from entity import *
 
 # Types of events to consider:
 # 1) DIalouge = interactions with NPCS
@@ -19,9 +20,9 @@ def rollSum(dice_count: int,dice_faces: int) -> int:
 def combat_encounter(*args):
   initiative_order = combat_build_initiative(args)
   done = False
-  while !done:
+  while not done:
     for combatant in initiative_order:
-      if type(combatant) == <class 'entity.Player'>:
+      if isinstance(combatant,Player):#<class 'entity.Player'>:
         pass
       else:
         pass
@@ -30,8 +31,6 @@ def combat_encounter(*args):
         attack<specific weapon>
         
 '''
-    
-    
 def combat_build_initiative(args):
   initiative_order = []
   for combatant in args:
