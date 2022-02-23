@@ -32,6 +32,7 @@ class NPC(Entity):
     def __init__(self):
         Entity.__init__(self)
         self.character_name = ""
+        self.description = ""
         self.character_class = [""]
         self.character_level = [0]
         self.character_experience = 0

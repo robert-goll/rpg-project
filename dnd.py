@@ -26,14 +26,36 @@ def combat_encounter(*args):
     while not done:
         for combatant in initiative_order:
             if isinstance(combatant, Player):  # <class 'entity.Player'>:
-                pass
+                #TODO - Add a menu for a choice of actions
+                target = combat_taret_menu()
+                #TODO - Add a follow up menu for actions against the target
             else:
                 pass
 
+def combat_target_menu(player,targets):
+    targets.remove(player)
+    valid = False
+    target= None
+    while not valid:
+        for i in range(len(targets)):
+            if target[i].character_name != "": 
+                print(f"{i+1}) {targets[i].character_name}")
+            elif target[i].description != "":
+                print(f"{i+1}) {targets[i].description}")
+            else:
+                print(f"{i+1}) <GENERIC ENTITY>")
+        userInput = input(":> ")
+        if userInput.isdecimal() and 1 <= int(userInput) <= len(targets):
+            valid = True
+            target = targets[int(userInput)]
+        else:
+            print(f"Invalid Input, please enter a number between 1 and {len(targets)}")
+    return target
+       
 
+       
 ''' combat actions:
-        attack<specific weapon>
-        
+        attack<specific weapon> 
 '''
 
 

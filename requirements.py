@@ -29,6 +29,9 @@ class Requirement:
             # TODO - Implement combat loop function
         else:
             pass
+        #TODO - Consider removing this output if we end up using a graphic renderer
+        print(f"...testing...{self.req_type}:{self.req_type_sub}:{self.req_rating}...")
+        print(f"...rolled {result}...")
         if result >= self.req_rating:
             return True
         else:

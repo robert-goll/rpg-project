@@ -107,7 +107,7 @@ def build_story(eventInfo):
             text = text.split('-')
             temp.req_type = text[0]
             temp.req_type_sub = text[1]
-            temp.rating = int(text[2])
+            temp.req_rating = int(text[2])
             events[-1].requirements.append(temp)
         # Loop to insert each path(raw) to the Event
         for path in event[2]:

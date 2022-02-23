@@ -54,7 +54,7 @@ if __name__ == '__main__':
     gear = Gear()
     gear.gear_type = "ATTR"
     gear.gear_subType = "CHA"
-    gear.gear_modifier = 30
+    gear.gear_modifier = 20
 
     player.character_gear[gear.gear_type].append(gear)
 
