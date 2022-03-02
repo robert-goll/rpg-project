@@ -47,13 +47,27 @@ if __name__ == '__main__':
       print('\t\t journey ends at %s'%innerPath)
       '''
 
-    nodes = input_story("test_adventure.txt")
-    print(nodes)
+    nodes = input_story("test_adventure2.txt")
+    #print(nodes)
     player = Player()
 
     gear = Gear()
     gear.gear_type = "ATTR"
-    gear.gear_subType = "CHA"
+    gear.gear_subType = "STR"
+    gear.gear_modifier = 20
+
+    player.character_gear[gear.gear_type].append(gear)
+    
+    gear = Gear()
+    gear.gear_type = "ATTR"
+    gear.gear_subType = "DEX"
+    gear.gear_modifier = 20
+
+    player.character_gear[gear.gear_type].append(gear)
+    
+    gear = Gear()
+    gear.gear_type = "ATTR"
+    gear.gear_subType = "WIS"
     gear.gear_modifier = 20
 
     player.character_gear[gear.gear_type].append(gear)

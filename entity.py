@@ -39,6 +39,8 @@ class NPC(Entity):
         self.character_alignment = "TN"
         self.character_race = [""]
         self.character_gender = ""
+        self.combat_actions = ["MOVE","INTERACT","EVADE","ASSIST"]
+        # TODO - POSSIBLY add taunt in the future
 
         self.character_attributes = {
             "STR": 10,

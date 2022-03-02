@@ -1,5 +1,6 @@
 from random import randint
 from math import fsum
+import copy
 from entity import *
 
 
@@ -27,13 +28,12 @@ def combat_encounter(*args):
         for combatant in initiative_order:
             if isinstance(combatant, Player):  # <class 'entity.Player'>:
                 #TODO - Add a menu for a choice of actions
-                target = combat_taret_menu()
+                target = combat_target_menu(combatant,initiative_order)
                 #TODO - Add a follow up menu for actions against the target
             else:
                 pass
 
 def combat_target_menu(player,targets):
-    targets.remove(player)
     valid = False
     target= None
     while not valid:
@@ -51,6 +51,29 @@ def combat_target_menu(player,targets):
         else:
             print(f"Invalid Input, please enter a number between 1 and {len(targets)}")
     return target
+    
+def combat_target_menu(player):
+    valid = False
+    action= None
+    actions = []
+    actions.extend(player.combat_actions)
+    if len(player.character_gear["COMBAT"]) > 0:
+        
+    while not valid:
+        for i in range(len(actions)):
+            if action[i].character_name != "": 
+                print(f"{i+1}) {actions[i].character_name}")
+            elif action[i].description != "":
+                print(f"{i+1}) {actions[i].description}")
+            else:
+                print(f"{i+1}) <GENERIC ENTITY>")
+        userInput = input(":> ")
+        if userInput.isdecimal() and 1 <= int(userInput) <= len(actions):
+            valid = True
+            action = actions[int(userInput)]
+        else:
+            print(f"Invalid Input, please enter a number between 1 and {len(actions)}")
+    return action
        
 
        
