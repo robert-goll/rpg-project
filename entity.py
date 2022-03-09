@@ -108,6 +108,7 @@ class Player(NPC):
         NPC.__init__(self)
 
 
+        #TODO - add a way to provide combat actions with gear
 class Gear(Entity):
     def __init__(self):
         Entity.__init__(self)
