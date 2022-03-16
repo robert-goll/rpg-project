@@ -61,7 +61,7 @@ def combat_encounter(friendly,hostile):
                             gear = item
                             break
                 action = temp_action[0]
-                ACTION_FUNCTIONS[action](combatant,target,battlefield,gear)
+                ACTION_FUNCTIONS[action](combatant,target,friendly,hostile,battlefield,gear)
             else:
                 pass
                 
@@ -127,7 +127,7 @@ def combat_build_initiative(args):
     return initiative_order
 
     
-def combat_action_move(combatant, target, battlefield, gear):
+def combat_action_move(combatant, target, friendly, hostile, battlefield, gear):
     if combatant in battlefield["FRIENDLY"]["SHORT"]:
         battlefield["FRIENDLY"]["SHORT"].remove(combatant)
         battlefield["FRIENDLY"]["FAR"].append(combatant)
@@ -141,6 +141,77 @@ def combat_action_move(combatant, target, battlefield, gear):
         battlefield["HOSTILE"]["FAR"].remove(combatant)
         battlefield["HOSTILE"]["SHORT"].append(combatant)
         
+def combat_action_attack(combatant, target, friendly, hostile, battlefield, gear):
+    relation = None
+    if combatant in friendly and target in friendly:
+        relation = 0
+    elif combatant in hostile and target in hostile:
+        relation = 1
+    elif combatant in friendly:
+        relation = 2
+    elif combatant in hostile:
+        relation = 3
+    
+    combatant_pos = None
+    target_pos = None
+    
+    match relation:
+        case 0:
+            if combatant in battlefield["FRIENDLY"]["SHORT"]:
+                combatant_pos = 0
+            else:
+                combatant_pos = 1
+            if target in battlefield["FRIENDLY"]["SHORT"]:
+                target_pos = 0
+            else:
+                target_pos = 1
+        case 1:
+            if combatant in battlefield["HOSTILE"]["SHORT"]:
+                combatant_pos = 2
+            else:
+                combatant_pos = 3
+            if target in battlefield["HOSTILE"]["SHORT"]:
+                target_pos = 2
+            else:
+                target_pos = 3
+        case 2:
+            if combatant in battlefield["FRIENDLY"]["SHORT"]:
+                combatant_pos = 0
+            else:
+                combatant_pos = 1
+            if target in battlefield["HOSTILE"]["SHORT"]:
+                target_pos = 2
+            else:
+                target_pos = 3
+        case 3:
+            if target in battlefield["FRIENDLY"]["SHORT"]:
+                target_pos = 0
+            else:
+                target_pos = 1
+            if combatant in battlefield["HOSTILE"]["SHORT"]:
+                combatant_pos = 2
+            else:
+                combatant_pos = 3
+        if abs(combatant_pos-target_pos) > 2:
+            if gear.sub_type  == "MELEE":
+                print("The attack fails!")
+                return           
+        else:
+            if gear.sub_type == "RANGED":
+                print("The attack fails!")
+                return
+        target_ac = target.getArmorClass()
+        attack_mod = None
+        if gear.sub_type  == "MELEE":
+            attack_mod = combatant.getAttributeModifier("STR")
+        else:
+            attack_mod = combatant.getAttributeModifier("DEX")
+        combatant_attack = rollDice(1,20) + attack_mod + gear_modifier
+        if combatant_attack >= target_ac:
+            damage = gear.damage.split('d')
+            damage = rollDice(damage[0],damage[1]
+            target.changeHP(damage)
+            print(f"{target.description} was hit for {damage} damage!")
         
 # <General description / narrative description>
 # 1) Option 1 <STR>

@@ -118,5 +118,10 @@ class Gear(Entity):
         self.gear_modifier = 0
         self.gear_type = ""
         self.gear_subType = ""
+        
+class Weapon(Gear):
+    def __init__(self):
+        super().__init__()
+        self.damage = ""
 
 # subtypes: AC, initiative
