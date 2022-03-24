@@ -1,4 +1,5 @@
 from requirements import *
+from entity import *
 import dnd
 
 
@@ -108,6 +109,10 @@ def build_story(eventInfo):
             temp.req_type = text[0]
             temp.req_type_sub = text[1]
             temp.req_rating = int(text[2])
+            if temp.req_type == "COMBAT":
+                enemies = temp.req_type_sub.split(',')
+                for e in enemies:
+                    temp.hostiles.append(build_enemy(e))
             events[-1].requirements.append(temp)
         # Loop to insert each path(raw) to the Event
         for path in event[2]:
@@ -119,3 +124,14 @@ def build_story(eventInfo):
             event.path_text[i] = temp[1]
             event.addPath(events[int(temp[0]) - 1])
     return events[0]
+    
+def build_enemy(enemy_code):
+    #TODO - We need to create a monster_manual.py  for enemy stats
+    enemy = NPC()
+    enemy.description = "Test Enemy"
+    testWeapon = Weapon()
+    testWeapon.description = "Test Weapon"
+    testWeapon.damage = '1d6'
+    enemy.character_gear['COMBAT'].append(testWeapon)
+    return enemy
+    

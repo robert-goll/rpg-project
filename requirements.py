@@ -8,6 +8,7 @@ class Requirement:
         self.req_type_sub = "STR"
         self.req_rating = 10
         self.consequence = None
+        self.hostiles = []
 
         def addConsequence(consequence):
             self.consequence = consequence
@@ -22,7 +23,7 @@ class Requirement:
         elif self.req_type == "SKILL":
             result = character.character_skills[self.req_type_sub] + rollSum(1, 20)
         elif self.req_type == "COMBAT":
-            result = 1
+            result = combat_encounter([character],self.hostiles)
         for gear in character.character_gear[self.req_type]:
             if gear.gear_subType == self.req_type_sub:
                 result += gear.gear_modifier

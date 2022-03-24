@@ -123,5 +123,6 @@ class Weapon(Gear):
     def __init__(self):
         super().__init__()
         self.damage = ""
+        self.actions.append('ATTACK')
 
 # subtypes: AC, initiative

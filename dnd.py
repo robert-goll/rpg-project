@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 from math import fsum
 import copy
 from entity import *
@@ -11,14 +11,6 @@ from entity import *
 
 
 # ACTION_FUNCTIONS[action](combatant,target,battlefield,gear=None)
-
-ACTION_FUNCTIONS = {
-    "MOVE": combat_action_move,
-    "INTERACT": pass,
-    "EVADE": pass,
-    "ASSIT": pass,
-    "ATTACK": pass
-}
 
 def rollDice(dice_count: int, dice_faces: int) -> list:  # 4d6 , 1d20
     rolls = []
@@ -45,13 +37,12 @@ def combat_encounter(friendly,hostile):
         }
     }
     done = False
+    status = None
     while not done:
         for combatant in initiative_order:
             if isinstance(combatant, Player):  # <class 'entity.Player'>:
-                #TODO - Add a menu for a choice of actions
                 action = combat_action_menu(combatant)
                 target = combat_target_menu(combatant,initiative_order)
-                #TODO - Add a follow up menu for actions against the target
                 temp_action = action.split('-')
                 gear = None
                 if len(temp_action) > 1:
@@ -63,9 +54,19 @@ def combat_encounter(friendly,hostile):
                 action = temp_action[0]
                 ACTION_FUNCTIONS[action](combatant,target,friendly,hostile,battlefield,gear)
             else:
-                pass
+                action = "ATTACK"
+                target = choice(friendly)
+                temp_action = action.split('-')
+                gear = combatant.character_gear["COMBAT"][0]
+                ACTION_FUNCTIONS[action](combatant,target,friendly,hostile,battlefield,gear)
+        status = combat_check_resolve(friendly,hostile)
+        if status != "continue":
+            done = True
+    if status == "player_won":
+        return True
+    else:
+        return False
                 
-    #TODO - Were going to need something to track distance
 
 def combat_target_menu(player,targets):
     valid = False
@@ -117,6 +118,12 @@ def combat_action_menu(player):
 
 def combat_build_initiative(args):
     initiative_order = []
+#TODO - Error looks to be caused by args being None;
+# we should check the resolve of requirment to make sure 
+# something is getting passed into combat_encounter
+#
+# also lets double check the build_enemies function is
+# actually creating and returning the NPC objects properly
     for combatant in args:
         i = combatant.getInitiative()
         index = 0
@@ -192,29 +199,45 @@ def combat_action_attack(combatant, target, friendly, hostile, battlefield, gear
                 combatant_pos = 2
             else:
                 combatant_pos = 3
-        if abs(combatant_pos-target_pos) > 2:
-            if gear.sub_type  == "MELEE":
-                print("The attack fails!")
-                return           
-        else:
-            if gear.sub_type == "RANGED":
-                print("The attack fails!")
-                return
-        target_ac = target.getArmorClass()
-        attack_mod = None
+    if abs(combatant_pos-target_pos) > 2:
         if gear.sub_type  == "MELEE":
-            attack_mod = combatant.getAttributeModifier("STR")
-        else:
-            attack_mod = combatant.getAttributeModifier("DEX")
-        combatant_attack = rollDice(1,20) + attack_mod + gear_modifier
-        if combatant_attack >= target_ac:
-            damage = gear.damage.split('d')
-            damage = rollDice(damage[0],damage[1]
-            target.changeHP(damage)
-            print(f"{target.description} was hit for {damage} damage!")
+            print("The attack fails!")
+            return           
+    else:
+        if gear.sub_type == "RANGED":
+            print("The attack fails!")
+            return
+    target_ac = target.getArmorClass()
+    attack_mod = None
+    if gear.sub_type  == "MELEE":
+        attack_mod = combatant.getAttributeModifier("STR")
+    else:
+        attack_mod = combatant.getAttributeModifier("DEX")
+    combatant_attack = rollDice(1,20) + attack_mod + gear_modifier
+    if combatant_attack >= target_ac:
+        damage = gear.damage.split('d')
+        damage = rollDice(damage[0],damage[1])
+        target.changeHP(damage)
+        print(f"{target.description} was hit for {damage} damage!")
         
 # <General description / narrative description>
 # 1) Option 1 <STR>
 # 2) Option 2 <CHA>
 # 3) Fight
 #  ...
+
+def combat_check_resolve(friendly,hostile):
+    if len(friendly) < 1:
+        return "player_lost"
+    if len(hostile) < 1:
+        return "player_won"
+    return "continue"
+    
+ACTION_FUNCTIONS = {
+    "MOVE": combat_action_move,
+    "INTERACT": lambda : print('OOPS'),
+    "EVADE": lambda : print('OOPS'),
+    "ASSIT": lambda : print('OOPS'),
+    "ATTACK": combat_action_attack
+}
+    
