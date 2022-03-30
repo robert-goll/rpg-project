@@ -50,6 +50,7 @@ if __name__ == '__main__':
     nodes = input_story("test_adventure.txt")
     #print(nodes)
     player = Player()
+    player.character_name = "Zap Branigan"
 
     gear = Gear()
     gear.gear_type = "ATTR"
@@ -71,6 +72,15 @@ if __name__ == '__main__':
     gear.gear_modifier = 20
 
     player.character_gear[gear.gear_type].append(gear)
+    
+    sword = Weapon()
+    sword.description = "Sword of the Thousand Truths"
+    sword.gear_type = "COMBAT"
+    sword.gear_sub_type = "MELEE"
+    sword.damage = "2d20"
+    sword.gear_modifier = 3
+    
+    player.character_gear[sword.gear_type].append(sword)
 
     # story = build_test_adventure()
     story = build_story(nodes)

@@ -1,7 +1,7 @@
-from random import randint, choice
-from math import fsum
 import copy
-from entity import *
+from utils import *
+from entity import Entity,NPC,Player,Gear,Weapon
+from random import choice
 
 
 # Types of events to consider:
@@ -11,31 +11,24 @@ from entity import *
 
 
 # ACTION_FUNCTIONS[action](combatant,target,battlefield,gear=None)
-
-def rollDice(dice_count: int, dice_faces: int) -> list:  # 4d6 , 1d20
-    rolls = []
-    for roll in range(dice_count):
-        rolls.append(randint(1, dice_faces))
-    return rolls
-
-
-def rollSum(dice_count: int, dice_faces: int) -> int:
-    result = rollDice(dice_count, dice_faces)
-    return int(fsum(result))
-
-
 def combat_encounter(friendly,hostile):
-    initiative_order = combat_build_initiative(friendly.extend(hostile))
+    friendly.extend(hostile)
+    all_combatants = friendly
+    initiative_order = combat_build_initiative(all_combatants)
+    for h in hostile:
+        friendly.remove(h)
     battlefield = {
         "FRIENDLY": {
             "SHORT": [],
-            "FAR":[].extend(friendly)
+            "FAR":[]
         },
         "HOSTILE":{
             "SHORT": [],
-            "FAR":[].extend(hostile)
+            "FAR":[]
         }
     }
+    battlefield["FRIENDLY"]["FAR"].extend(friendly)
+    battlefield["HOSTILE"]["FAR"].extend(hostile)
     done = False
     status = None
     while not done:
@@ -73,16 +66,16 @@ def combat_target_menu(player,targets):
     target= None
     while not valid:
         for i in range(len(targets)):
-            if target[i].character_name != "": 
+            if targets[i].character_name != "": 
                 print(f"{i+1}) {targets[i].character_name}")
-            elif target[i].description != "":
+            elif targets[i].description != "":
                 print(f"{i+1}) {targets[i].description}")
             else:
                 print(f"{i+1}) <GENERIC ENTITY>")
         userInput = input(":> ")
         if userInput.isdecimal() and 1 <= int(userInput) <= len(targets):
             valid = True
-            target = targets[int(userInput)]
+            target = targets[int(userInput)-1]
         else:
             print(f"Invalid Input, please enter a number between 1 and {len(targets)}")
     return target
@@ -104,7 +97,7 @@ def combat_action_menu(player):
         userInput = input(":> ")
         if userInput.isdecimal() and 1 <= int(userInput) <= len(actions):
             valid = True
-            action = actions[int(userInput)]
+            action = actions[int(userInput)-1]
         else:
             print(f"Invalid Input, please enter a number between 1 and {len(actions)}")
     return action
@@ -131,6 +124,8 @@ def combat_build_initiative(args):
             if initiative_order[index][0] <= i:
                 break
         initiative_order.insert(index, (i, combatant))
+    for i in range(len(initiative_order)):
+        initiative_order[i] = initiative_order[i][1]
     return initiative_order
 
     
@@ -200,24 +195,24 @@ def combat_action_attack(combatant, target, friendly, hostile, battlefield, gear
             else:
                 combatant_pos = 3
     if abs(combatant_pos-target_pos) > 2:
-        if gear.sub_type  == "MELEE":
+        if gear.gear_sub_type  == "MELEE":
             print("The attack fails!")
             return           
     else:
-        if gear.sub_type == "RANGED":
+        if gear.gear_sub_type == "RANGED":
             print("The attack fails!")
             return
     target_ac = target.getArmorClass()
     attack_mod = None
-    if gear.sub_type  == "MELEE":
+    if gear.gear_sub_type  == "MELEE":
         attack_mod = combatant.getAttributeModifier("STR")
     else:
         attack_mod = combatant.getAttributeModifier("DEX")
-    combatant_attack = rollDice(1,20) + attack_mod + gear_modifier
+    combatant_attack = rollSum(1,20) + attack_mod + gear.gear_modifier
     if combatant_attack >= target_ac:
         damage = gear.damage.split('d')
-        damage = rollDice(damage[0],damage[1])
-        target.changeHP(damage)
+        damage = rollSum(int(damage[0]),int(damage[1]))
+        target.change_HP(-damage)
         print(f"{target.description} was hit for {damage} damage!")
         
 # <General description / narrative description>

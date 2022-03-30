@@ -1,3 +1,5 @@
+from utils import *
+
 class Entity():
     pass
 
@@ -70,7 +72,7 @@ class NPC(Entity):
             "COMBAT": []
         }
 
-    def getAttributeModifer(self, attribute):
+    def getAttributeModifier(self, attribute):
         return (self.character_attributes[attribute] - 10) // 2
 
     def getArmorClass(self):
@@ -88,7 +90,7 @@ class NPC(Entity):
         for trinket in self.character_gear["TRINKET"]:
             if trinket.gear_subType == "initiative":
                 modifiers += trinket.gear_modifier
-        return modifiers + rollDice(1, 20)
+        return modifiers + rollSum(1, 20)
 
     def change_attribute(self, attribute, value):
         self.character_attributes[attribute] += value
@@ -97,7 +99,7 @@ class NPC(Entity):
         self.character_skills[skill] += value
 
     def change_HP(self, value):
-        self.character_attributes[attribute] += value
+        self.character_currentHP += value
 
     def change_XP(self, value):
         self.character_experience += value
@@ -117,7 +119,7 @@ class Gear(Entity):
         self.value = 0
         self.gear_modifier = 0
         self.gear_type = ""
-        self.gear_subType = ""
+        self.gear_sub_type = ""
         
 class Weapon(Gear):
     def __init__(self):
