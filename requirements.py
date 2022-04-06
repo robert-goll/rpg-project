@@ -25,7 +25,7 @@ class Requirement:
         elif self.req_type == "COMBAT":
             result = combat_encounter([character],self.hostiles)
         for gear in character.character_gear[self.req_type]:
-            if gear.gear_subType == self.req_type_sub:
+            if gear.gear_sub_type == self.req_type_sub:
                 result += gear.gear_modifier
             # TODO - Implement combat loop function
         else:

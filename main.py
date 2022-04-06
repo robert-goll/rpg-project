@@ -51,6 +51,7 @@ if __name__ == '__main__':
     #print(nodes)
     player = Player()
     player.character_name = "Zap Branigan"
+    player.character_attributes["DEX"] = 15
 
     gear = Gear()
     gear.gear_type = "ATTR"

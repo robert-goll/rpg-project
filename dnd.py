@@ -33,6 +33,7 @@ def combat_encounter(friendly,hostile):
     status = None
     while not done:
         for combatant in initiative_order:
+            show_initiative(initiative_order,combatant)
             if isinstance(combatant, Player):  # <class 'entity.Player'>:
                 action = combat_action_menu(combatant)
                 target = combat_target_menu(combatant,initiative_order)
@@ -40,7 +41,7 @@ def combat_encounter(friendly,hostile):
                 gear = None
                 if len(temp_action) > 1:
                     gear_description = temp_action[1]
-                    for item in combatant.character_gear:
+                    for item in combatant.character_gear["COMBAT"]:
                         if item.description == gear_description:
                             gear = item
                             break
@@ -52,9 +53,12 @@ def combat_encounter(friendly,hostile):
                 temp_action = action.split('-')
                 gear = combatant.character_gear["COMBAT"][0]
                 ACTION_FUNCTIONS[action](combatant,target,friendly,hostile,battlefield,gear)
-        status = combat_check_resolve(friendly,hostile)
-        if status != "continue":
-            done = True
+            input("...press enter to continue...")
+            combat_cleanup(initiative_order,friendly,hostile)
+            status = combat_check_resolve(friendly,hostile)
+            if status != "continue":
+                done = True
+                break
     if status == "player_won":
         return True
     else:
@@ -213,7 +217,13 @@ def combat_action_attack(combatant, target, friendly, hostile, battlefield, gear
         damage = gear.damage.split('d')
         damage = rollSum(int(damage[0]),int(damage[1]))
         target.change_HP(-damage)
-        print(f"{target.description} was hit for {damage} damage!")
+        if target.character_name != "": 
+            print(f"{target.character_name} was hit for {damage} damage!")
+        elif target.description != "":
+            print(f"{target.description} was hit for {damage} damage!")
+        else:
+            print(f"<GENERIC ENTITY> was hit for {damage} damage!")
+        
         
 # <General description / narrative description>
 # 1) Option 1 <STR>
@@ -221,13 +231,52 @@ def combat_action_attack(combatant, target, friendly, hostile, battlefield, gear
 # 3) Fight
 #  ...
 
+def combat_cleanup(initiative_order,friendly,hostile):
+    dead = []
+    for npc in initiative_order:
+        if npc.character_currentHP < 1:
+            if npc.character_name != "": 
+                print(f"{npc.character_name} is dead!")
+            elif npc.description != "":
+                print(f"{npc.description} is dead!")
+            else:
+                print(f"<GENERIC ENTITY> is dead!")
+            dead.append(npc)
+            if npc in friendly:
+                friendly.remove(npc)
+            else:
+                hostile.remove(npc)
+    for corpse in dead:
+        initiative_order.remove(corpse)
+
+
 def combat_check_resolve(friendly,hostile):
     if len(friendly) < 1:
         return "player_lost"
     if len(hostile) < 1:
         return "player_won"
     return "continue"
-    
+   
+
+def show_initiative(initiative_order,current_npc):
+    print(50*'\n')
+    print(" -- CURRENT INITIATIVE ORDER -- ")
+    for npc in initiative_order:  
+        padding = " "
+        name_str = ""
+        if npc == current_npc:
+            padding = ">"
+        if npc.character_name != "": 
+            name_str = f"{padding} {npc.character_name}"
+        elif npc.description != "":
+            name_str = f"{padding} {npc.description}"
+        else:
+            name_str = f"{padding} <GENERIC ENTITY>"
+        health_str = f"[{npc.character_currentHP}/{npc.character_totalHP}]"
+        print(name_str.ljust(20," "),health_str.rjust(5,' '))
+    print(" - - - - - - - - - - - - - - - - ")
+
+   
 ACTION_FUNCTIONS = {
     "MOVE": combat_action_move,
     "INTERACT": lambda : print('OOPS'),

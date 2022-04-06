@@ -82,7 +82,7 @@ class NPC(Entity):
         for trinket in self.character_gear["TRINKET"]:
             if trinket.gear_subType == "AC":
                 modifiers += trinket.gear_modifier
-        return self.getAttributeModifier('DEX') + modifiers
+        return 8 + self.getAttributeModifier('DEX') + modifiers
 
     def getInitiative(self):
         modifiers = 0
