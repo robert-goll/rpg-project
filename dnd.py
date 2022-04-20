@@ -34,6 +34,7 @@ def combat_encounter(friendly,hostile):
     while not done:
         for combatant in initiative_order:
             show_initiative(initiative_order,combatant)
+            show_battlefield(initiative_order,battlefield)
             if isinstance(combatant, Player):  # <class 'entity.Player'>:
                 action = combat_action_menu(combatant)
                 target = combat_target_menu(combatant,initiative_order)
@@ -261,20 +262,46 @@ def combat_check_resolve(friendly,hostile):
 def show_initiative(initiative_order,current_npc):
     print(50*'\n')
     print(" -- CURRENT INITIATIVE ORDER -- ")
+    count = 1
     for npc in initiative_order:  
         padding = " "
         name_str = ""
         if npc == current_npc:
             padding = ">"
         if npc.character_name != "": 
-            name_str = f"{padding} {npc.character_name}"
+            name_str = f"{str(count)+' '}{padding} {npc.character_name}"
         elif npc.description != "":
-            name_str = f"{padding} {npc.description}"
+            name_str = f"{str(count)+' '}{padding} {npc.description}"
         else:
-            name_str = f"{padding} <GENERIC ENTITY>"
+            name_str = f"{str(count)+' '}{padding} <GENERIC ENTITY>"
         health_str = f"[{npc.character_currentHP}/{npc.character_totalHP}]"
         print(name_str.ljust(20," "),health_str.rjust(5,' '))
+        count += 1
     print(" - - - - - - - - - - - - - - - - ")
+    
+
+def show_battlefield(initiative_order,battlefield):
+    count = 1
+    print("       CURRENT BATTLEFIELD      ")
+    print("    FRIENDLY        HOSTILE     ")
+    print("  FAR    SHORT    SHORT    FAR  ")
+    print(" - - - - - - - - - - - - - - - -")
+    for entity in initiative_order:
+        f_far   = " "
+        f_short = " "
+        e_short = " "
+        e_far   = " "
+        if entity in battlefield["FRIENDLY"]["SHORT"]:
+            f_short = str(count)
+        elif entity in battlefield["FRIENDLY"]["FAR"]:
+            f_far   = str(count)
+        elif entity in battlefield["HOSTILE"]["SHORT"]:
+            e_short = str(count)
+        elif entity in battlefield["HOSTILE"]["FAR"]:
+            e_far = str(count)
+        count += 1
+        print(f"    {f_far}  .  {f_short}    |    {e_short}  .  {e_far}    ")
+    print(" - - - - - - - - - - - - - - - -")
 
    
 ACTION_FUNCTIONS = {
